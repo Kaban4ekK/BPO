@@ -18,7 +18,10 @@ public abstract class Animal
         Console.WriteLine($"[Animal] Финализатор: {Name}");
     }
 
-    public abstract void Talk();
+    public void Talk()                   
+    {
+        Console.WriteLine($"{Name} издаёт звук...");
+    }
 
     public virtual void Print()
     {
@@ -36,12 +39,8 @@ public class Dog : Animal
         Console.WriteLine($"[Dog] Конструктор: {Name}");
     }
 
-    ~Dog()
-    {
-        Console.WriteLine($"[Dog] Финализатор: {Name}");
-    }
 
-    public override void Talk()
+    public void Talk()                    
     {
         Console.WriteLine($"{Name} говорит: Гав-гав!");
     }
@@ -54,6 +53,7 @@ public class Dog : Animal
     }
 }
 
+
 public class Cat : Animal
 {
     private bool Fluffy { get; set; }
@@ -61,16 +61,10 @@ public class Cat : Animal
     public Cat(string name, int age, bool fluffy) : base(name, age)
     {
         Fluffy = fluffy;
-        Console.WriteLine($"[Cat] Конструктор: {Name}");
     }
 
-    ~Cat()
-    {
-        Console.WriteLine($"[Cat] Финализатор: {Name}");
-    }
-
-    public override void Talk()
-    {
+    public override void Talk()           
+    {                                      
         Console.WriteLine($"{Name} говорит: Мяу!");
     }
 
@@ -82,6 +76,7 @@ public class Cat : Animal
     }
 }
 
+
 public abstract class Artiodactyl : Animal
 {
     protected int HoofCount { get; set; }
@@ -89,14 +84,7 @@ public abstract class Artiodactyl : Animal
     protected Artiodactyl(string name, int age, int hoofCount) : base(name, age)
     {
         HoofCount = hoofCount;
-        Console.WriteLine($"[Artiodactyl] Конструктор: {Name}");
     }
-
-    ~Artiodactyl()
-    {
-        Console.WriteLine($"[Artiodactyl] Финализатор: {Name}");
-    }
-
 
     public override void Print()
     {
@@ -113,12 +101,6 @@ public class Cow : Artiodactyl
         : base(name, age, hoofCount)
     {
         MilkPerDay = milkPerDay;
-        Console.WriteLine($"[Cow] Конструктор: {Name}");
-    }
-
-    ~Cow()
-    {
-        Console.WriteLine($"[Cow] Финализатор: {Name}");
     }
 
     public override void Talk()
@@ -134,6 +116,7 @@ public class Cow : Artiodactyl
     }
 }
 
+
 public class Horse : Artiodactyl
 {
     private double MaxSpeed { get; set; }
@@ -142,12 +125,6 @@ public class Horse : Artiodactyl
         : base(name, age, hoofCount)
     {
         MaxSpeed = maxSpeed;
-        Console.WriteLine($"[Horse] Конструктор: {Name}");
-    }
-
-    ~Horse()
-    {
-        Console.WriteLine($"[Horse] Финализатор: {Name}");
     }
 
     public override void Talk()
@@ -175,15 +152,13 @@ public class Program
             new Horse("Орлик", 7, 4, 60.0)
         };
 
-        Console.WriteLine("\n========== Обход массива ==========");
         foreach (var animal in zoo)
         {
-            animal.Talk();   // полиморфный вызов
+            animal.Talk();   // из-за ошибки 1 вызовется Animal.Talk для ВСЕХ
             animal.Print();
             Console.WriteLine();
         }
 
-        Console.WriteLine("========== Конец Main ==========");
         GC.Collect();
         GC.WaitForPendingFinalizers();
     }
