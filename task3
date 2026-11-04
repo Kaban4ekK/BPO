@@ -20,7 +20,7 @@ public abstract class Animal
     }
 
 
-    public void Talk()                   
+    public abstract void Talk()                  
     {
         Console.WriteLine($"{Name} издаёт звук...");
     }
